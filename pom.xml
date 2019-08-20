@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+
     Copyright (c) 2019 Connexta, LLC
 
     Released under the GNU Lesser General Public License version 3; see
     https://www.gnu.org/licenses/lgpl-3.0.html
+
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -30,7 +32,7 @@
 
 
     <properties>
-        <root.package>com.connexta.ingest</root.package>
+        <root.package>com.connexta.store</root.package>
 
         <!-- Build properties -->
         <java.version>11</java.version>
@@ -49,9 +51,9 @@
     </properties>
 
     <scm>
-        <url>https://github.com/connexta/ion-ingest-api</url>
-        <connection>scm:git:https://github.com/connexta/ion-ingest-api.git</connection>
-        <developerConnection>scm:git:https://github.com/connext/ion-ingest-api.git
+        <url>https://github.com/connexta/ion-store-api</url>
+        <connection>scm:git:https://github.com/connexta/ion-store-api.git</connection>
+        <developerConnection>scm:git:https://github.com/connext/ion-store-api.git
         </developerConnection>
         <tag>HEAD</tag>
     </scm>

@@ -18,14 +18,14 @@
     <artifactId>store-api-rest-spring-stubs</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.connexta.ingest</groupId>
-            <artifactId>ingest-api-rest-specs</artifactId>
+            <groupId>com.connexta.store</groupId>
+            <artifactId>store-api-rest-specs</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
         <dependency>
-            <groupId>com.connexta.ingest</groupId>
-            <artifactId>ingest-api-rest-models</artifactId>
+            <groupId>com.connexta.store</groupId>
+            <artifactId>store-api-rest-models</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -59,7 +59,7 @@
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>ingest-api-rest-specs</includeArtifactIds>
+                            <includeArtifactIds>store-api-rest-specs</includeArtifactIds>
                             <outputDirectory>${project.build.directory}/openapi</outputDirectory>
                             <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>

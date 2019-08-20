@@ -19,8 +19,8 @@ pipeline {
         LINUX_MVN_RANDOM = '-Djava.security.egd=file:/dev/./urandom'
         COVERAGE_EXCLUSIONS = '**/test/**/*,**/itests/**/*,**/*Test*,**/sdk/**/*,**/*.js,**/node_modules/**/*,**/jaxb/**/*,**/wsdl/**/*,**/nces/sws/**/*,**/*.adoc,**/*.txt,**/*.xml'
         GITHUB_USERNAME = 'connexta'
-        GITHUB_REPONAME = 'ion-ingest-api'
-        GITHUB_KEY = 'ion-ingest-api-github-key'
+        GITHUB_REPONAME = 'ion-store-api'
+        GITHUB_KEY = 'ion-store-api-github-key'
     }
     parameters {
         booleanParam(name: 'RELEASE', defaultValue: false, description: 'Perform Release?')
