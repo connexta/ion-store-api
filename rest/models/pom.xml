@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+    Copyright (c) 2019 Connexta, LLC
+
+    Released under the GNU Lesser General Public License version 3; see
+    https://www.gnu.org/licenses/lgpl-3.0.html
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.connexta.store</groupId>
+        <artifactId>store-api-rest</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <name>Ingest Rest Models</name>
+    <artifactId>store-api-rest-models</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.connexta.ingest</groupId>
+            <artifactId>ingest-api-rest-specs</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+        </dependency>
+        <!--
+            Replace io.springfox:springfox-swagger2 with io.swagger.core.v3:swagger-core when
+            the generator supports io.swagger.v3.annotations
+        -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.servicemix.tooling</groupId>
+                <artifactId>depends-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-openapi-specs</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>ingest-api-rest-specs</includeArtifactIds>
+                            <outputDirectory>${project.build.directory}/openapi</outputDirectory>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.build.directory}/openapi/openapi.yaml
+                            </inputSpec>
+                            <generatorName>spring</generatorName>
+                            <configOptions>
+                                <java8>true</java8>
+                                <dateLibrary>java8</dateLibrary>
+                                <useTags>true</useTags>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useOptional>true</useOptional>
+                                <booleanGetterPrefix>is</booleanGetterPrefix>
+                                <useBeanValidation>true</useBeanValidation>
+                                <sortParamsByRequiredFlag>true</sortParamsByRequiredFlag>
+                                <performBeanValidation>false</performBeanValidation>
+                                <sourceFolder>src/main/java</sourceFolder>
+                            </configOptions>
+                            <modelPackage>${rest.models.package}</modelPackage>
+                            <generateApis>false</generateApis>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModels>true</generateModels>
+                            <generateModelDocumentation>true</generateModelDocumentation>
+                            <generateModelTests>false</generateModelTests>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <configuration>
+                    <suppressionFiles>
+                        <suppressionFile>${basedir}/owasp/suppressions.xml</suppressionFile>
+                    </suppressionFiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

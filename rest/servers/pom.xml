@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2019 Connexta, LLC
+
+    Released under the GNU Lesser General Public License version 3; see
+    https://www.gnu.org/licenses/lgpl-3.0.html
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.connexta.store</groupId>
+        <artifactId>store-api-rest</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <name>Store Rest Servers</name>
+    <artifactId>store-api-rest-servers</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>spring</module>
+    </modules>
+</project>
