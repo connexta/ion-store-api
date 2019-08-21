@@ -85,6 +85,9 @@ paths:
           description: Get Product
           content:
             application/octet-stream:
+              schema:
+                type: string
+                format: binary
           headers:
             'Content-Version':
               $ref: '#/components/headers/ContentVersion'
