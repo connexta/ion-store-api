@@ -73,13 +73,12 @@ paths:
         - product
       parameters:
         - $ref: '#/components/parameters/Accept-Version'
-        - ProductID:
-            name: productID
-            in: path
-            schema:
-              required: true
-              type: string
-              example: "123e4567e89b12d3a456426655440000"
+        - name: productID
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "123e4567e89b12d3a456426655440000"
       responses:
         200:
           description: Get Product
