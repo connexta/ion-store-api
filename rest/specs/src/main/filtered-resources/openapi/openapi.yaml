@@ -81,8 +81,13 @@ paths:
               type: string
               example: "123e4567e89b12d3a456426655440000"
       responses:
-        '200':
-          $ref: '#/components/responses/OK'
+        200:
+          description: Request fulfilled
+          content:
+            application/octet-stream:
+          headers:
+            'Content-Version':
+              $ref: '#/components/headers/ContentVersion'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '400':
