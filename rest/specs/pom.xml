@@ -16,7 +16,7 @@
         <artifactId>store-api-rest</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <name>Store Rest Open API Specification</name>
+    <name>Store API :: REST Specification</name>
     <artifactId>store-api-rest-specs</artifactId>
     <packaging>pom</packaging>
     <build>
