@@ -30,7 +30,6 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-
     <properties>
         <root.package>com.connexta.store</root.package>
 
@@ -58,17 +57,6 @@
         <tag>HEAD</tag>
     </scm>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ion-snapshots</id>
-            <url>http://nexus.phx.connexta.com:8081/nexus/content/repositories/ion-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>ion-releases</id>
-            <url>http://nexus.phx.connexta.com:8081/nexus/content/repositories/ion-releases/</url>
-        </repository>
-    </distributionManagement>
-
     <repositories>
         <repository>
             <id>central</id>
@@ -90,11 +78,6 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>codice</id>
-            <name>Codice Repository</name>
-            <url>https://artifacts.codice.org/content/groups/public/</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -146,14 +129,6 @@
     </dependencyManagement>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>com.vackosar.gitflowincrementalbuilder</groupId>
-                <artifactId>gitflow-incremental-builder</artifactId>
-                <version>3.8</version>
-            </extension>
-        </extensions>
-
         <pluginManagement>
             <plugins>
                 <plugin>

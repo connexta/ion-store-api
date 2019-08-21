@@ -17,7 +17,7 @@
         <artifactId>store-api-rest</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <name>Store API :: Rest Models</name>
+    <name>Store API :: REST Models</name>
     <artifactId>store-api-rest-models</artifactId>
     <dependencies>
         <dependency>
