@@ -9,10 +9,9 @@ openapi: 3.0.2
 
 info:
   version: ${project.version}
-  title: Ingest API
+  title: Product API
   description: >
-    The Ingest API is defined to provide clients with the ability to
-    ingest products for validation, transformation and storage.
+    The Product API allows clients to create and retrieve Product resources
   contact:
     name: Connexta
   license:
@@ -23,21 +22,20 @@ servers:
   - url: ${rest.server.url}
 
 paths:
-  /ingest:
+  /mis/product:
     post:
-      summary: Ingest endpoint for products.
+      summary: Create a Product
       description: >
-        A system can use the Ingest endpoint to send one or more attachments
-        and a JSON description of a product.
-      operationId: ingest
+        Clients send a file attachment to create a Prodcut resource.
+      operationId: productPOST
       tags:
-        - ingest
+        - product
       parameters:
         - $ref: '#/components/parameters/Accept-Version'
       requestBody:
         required: true
         description: >
-          The body of the ingest request that includes and describes an attached file(s).
+          The body of the ingest request includes an attached file.
         content:
           multipart/form-data:
             schema:
@@ -51,24 +49,44 @@ paths:
                   format: binary
                   minLength: 1
                   maxLength: 14316557655
-                correlationId:
-                  description: >
-                    A unique client provided identifier for the product to be ingested which will allow the client to
-                    retrieve the product and/or any other information associated with it in the future. Only one product
-                    can exist with a given correlation identifier. This means that a request to ingest a product with an
-                    existing correlation id will result in a failure with no changes to the existing product or
-                    associated information.
-                  type: string
-                  minLength: 1
-                  maxLength: 256
               required:
                 - file
-                - correlationId
       responses:
-        '202':
-          $ref: '#/components/responses/Accepted'
+        '201':
+          $ref: '#/components/responses/Created'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '501':
+          $ref: '#/components/responses/NotImplemented'
+        'default':
+          $ref: '#/components/responses/DefaultError'
+  /mis/product/{productID}:
+    get:
+      summary: Get a Product
+      description: Client send a Product ID to retrieve the Product as a file.
+      operationId: productGET
+      tags:
+        - product
+      parameters:
+        - $ref: '#/components/parameters/Accept-Version'
+        - ProductID:
+            name: productID
+            in: path
+            schema:
+              required: true
+              type: string
+              example: "123e4567e89b12d3a456426655440000"
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '403':
           $ref: '#/components/responses/Forbidden'
         '501':
@@ -78,9 +96,21 @@ paths:
 
 components:
   responses:
+    OK:
+      description: >
+        The service has fulfilled the request.
+      headers:
+        'Content-Version':
+          $ref: '#/components/headers/ContentVersion'
     Accepted:
       description: >
-        The ingest request was accepted.
+        The request was accepted.
+      headers:
+        'Content-Version':
+          $ref: '#/components/headers/ContentVersion'
+    Created:
+      description: >
+        The request to create a Product was accepted.
       headers:
         'Content-Version':
           $ref: '#/components/headers/ContentVersion'
