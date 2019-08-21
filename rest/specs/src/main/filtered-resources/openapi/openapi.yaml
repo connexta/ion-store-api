@@ -26,7 +26,7 @@ paths:
     post:
       summary: Create a Product
       description: >
-        Clients send a file attachment to create a Prodcut resource.
+        Clients send a file attachment to create a Product resource.
       operationId: storeProduct
       tags:
         - product
@@ -67,7 +67,7 @@ paths:
   /mis/product/{productID}:
     get:
       summary: Get a Product
-      description: Client send a Product ID to retrieve the Product as a file.
+      description: Client sends a Product ID to retrieve the Product as a file.
       operationId: retrieveProduct
       tags:
         - product
