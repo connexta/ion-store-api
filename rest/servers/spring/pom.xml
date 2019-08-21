@@ -14,7 +14,7 @@
         <artifactId>store-api-rest-servers</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <name>Store Rest Spring Stubs</name>
+    <name>Store API :: Rest Spring Stubs</name>
     <artifactId>store-api-rest-spring-stubs</artifactId>
     <dependencies>
         <dependency>

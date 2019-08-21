@@ -15,7 +15,7 @@
         <artifactId>store-api-rest</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <name>Store Rest Servers</name>
+    <name>Store API :: Rest Servers</name>
     <artifactId>store-api-rest-servers</artifactId>
     <packaging>pom</packaging>
 
