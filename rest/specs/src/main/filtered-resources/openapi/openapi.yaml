@@ -22,7 +22,7 @@ servers:
   - url: ${rest.server.url}
 
 paths:
-  /mis/product:
+  /product:
     post:
       summary: Create a Product
       description: >
@@ -54,7 +54,7 @@ paths:
       responses:
         '201':
           description: >
-              Resource created. The Location response header contains the URI of the newly created resource.
+              Product created. The Location response header contains the URI of the newly created product.
           headers:
             'Content-Version':
               $ref: '#/components/headers/ContentVersion'
@@ -68,7 +68,7 @@ paths:
           $ref: '#/components/responses/NotImplemented'
         'default':
           $ref: '#/components/responses/DefaultError'
-  /mis/product/{productID}:
+  /product/{productID}:
     get:
       summary: Get a Product
       description: Client sends a Product ID to retrieve the Product as a file.
