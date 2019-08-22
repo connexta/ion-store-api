@@ -11,7 +11,7 @@ info:
   version: ${project.version}
   title: Store API
   description: >
-    The Product API allows clients to create and retrieve Product resources
+    The Store API allows clients to create and retrieve Product resources
   contact:
     name: Connexta
   license:
