@@ -1,0 +1,291 @@
+#
+# Copyright (c) 2019 Connexta, LLC
+#
+# Released under the GNU Lesser General Public License version 3; see
+# https://www.gnu.org/licenses/lgpl-3.0.html
+#
+
+openapi: 3.0.2
+
+info:
+  version: ${project.version}
+  title: Store API
+  description: >
+    The Store API allows clients to create and retrieve Product resources
+  contact:
+    name: Connexta
+  license:
+    name: GNU Lesser General Public License
+    url: 'http://www.gnu.org/licenses/lgpl.html'
+
+servers:
+  - url: ${rest.server.url}
+
+paths:
+  /product:
+    post:
+      summary: Create a Product
+      description: >
+        Clients send a file attachment to create a Product resource
+      operationId: storeProduct
+      tags:
+        - store
+      parameters:
+        - $ref: '#/components/parameters/Accept-Version'
+      requestBody:
+        required: true
+        description: >
+          The body of the request that includes one attached file.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/File'
+      responses:
+        '201':
+          description: >
+            Product created. The Location response header contains the URI of the newly created product.
+          headers:
+            'Content-Version':
+              $ref: '#/components/headers/ContentVersion'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '501':
+          $ref: '#/components/responses/NotImplemented'
+        'default':
+          $ref: '#/components/responses/DefaultError'
+  /product/{productId}/{metadataType}:
+    put:
+      summary: Add metadata to a Product.
+      description: >
+        Clients send a file attachment to add a metadata to an existing Product.
+      operationId: addMetadata
+      tags:
+        - store
+      parameters:
+        - $ref: '#/components/parameters/Accept-Version'
+        - $ref: '#/components/parameters/ProductId'
+        - name: metadataType
+          in: path
+          description: >
+            The type of the metadata to add.
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 32
+            pattern: '^[0-9a-zA-Z\-]+$'
+      requestBody:
+        required: true
+        description: >
+          The body of the request that includes one attached file.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/File'
+      responses:
+        '200':
+          description: >
+            The request was successful.
+          headers:
+            'Content-Version':
+              $ref: '#/components/headers/ContentVersion'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '501':
+          $ref: '#/components/responses/NotImplemented'
+        'default':
+          $ref: '#/components/responses/DefaultError'
+  /product/{productId}:
+    get:
+      summary: Get a Product.
+      description: Clients send a Product ID to retrieve the Product as a file.
+      operationId: retrieveProduct
+      tags:
+        - store
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      responses:
+        200:
+          description: Get Product
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          headers:
+            'Content-Version':
+              $ref: '#/components/headers/ContentVersion'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '501':
+          $ref: '#/components/responses/NotImplemented'
+        'default':
+          $ref: '#/components/responses/DefaultError'
+
+components:
+  responses:
+    Unauthorized:
+      description: >
+        The client could not be authenticated.
+      headers:
+        'Content-Version':
+          $ref: '#/components/headers/ContentVersion'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    Forbidden:
+      description: >
+        The client does not have permission.
+      headers:
+        'Content-Version':
+          $ref: '#/components/headers/ContentVersion'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    NotImplemented:
+      description: >
+        The requested API version is not supported and therefore not implemented.
+      headers:
+        'Content-Version':
+          $ref: '#/components/headers/ContentVersion'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    BadRequest:
+      description: >
+        The client message could not be understood by the server due to invalid format or syntax.
+      headers:
+        'Content-Version':
+          $ref: '#/components/headers/ContentVersion'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    DefaultError:
+      description: >
+        Any other possible errors not currently known.
+      headers:
+        'Content-Version':
+          $ref: '#/components/headers/ContentVersion'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+  parameters:
+    Accept-Version:
+      name: Accept-Version
+      in: header
+      description: >
+        The minimal API version that a client using this API will accept
+        responses from.
+      required: true
+      schema:
+        $ref: '#/components/schemas/Version'
+    ProductId:
+      name: productId
+      in: path
+      description: >
+        The ID of the Product.
+      required: true
+      schema:
+        type: string
+        minLength: 32
+        maxLength: 32
+        pattern: '^[0-9a-zA-Z]+$'
+        example: 00067360b70e4acfab561fe593ad3f7a
+  headers:
+    ContentVersion:
+      description: >
+        The API version used by the server to produce the REST message. The server will accept
+        messages for any minor versions prior to this one.
+      required: true
+      schema:
+        $ref: '#/components/schemas/Version'
+      examples:
+        major.minor:
+          value: '1.2'
+          summary: A released minor version
+        major.minor.patch:
+          value: '1.0.3'
+          summary: A patched version
+        dev:
+          value: '1.2.0-SNAPSHOT'
+          summary: A development version
+  schemas:
+    File:
+      type: object
+      properties:
+        file:
+          description: >
+            The file attachment. The current maximum size is the character equivalent of 10GB.
+          type: string
+          format: binary
+          minLength: 1
+          maxLength: 14316557655
+      required:
+        - file
+    Version:
+      description: Version number.
+      type: string
+      minLength: 3
+      maxLength: 80
+      pattern: '^([1-9]([0-9]+)?)\.(0|([1-9]([0-9]+)?))(\.(0|([1-9]([0-9]+)?))(-.*)?)?$'
+      example: 1.2, 2.4.3, 0.2.5-SNAPSHOT
+    ErrorMessage:
+      description: Error message information.
+      type: object
+      required:
+        - timestamp
+        - path
+        - status
+        - error
+        - message
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: The server time when the error was generated.
+          example: 2019-05-09T14:47:13.101+0000
+        path:
+          type: string
+          description: The path for the REST request that generated this error.
+          example: /ingest
+        status:
+          type: integer
+          format: int32
+          description: The corresponding HTTP status code.
+          example: 200
+        code:
+          type: integer
+          format: int32
+          description: >
+            An optional more specific code corresponding to the error (specific codes need to be
+            documented).
+        error:
+          type: string
+          description: The corresponding HTTP reason phrase.
+          minLength: 1
+          example: Bad Request
+        message:
+          type: string
+          description: Specific information about the error.
+          minLength: 1
+          example: Validation failed for object='systemInfo'.
+        details:
+          type: array
+          items:
+            type: string
+          description: Optional detailed information about the error.
