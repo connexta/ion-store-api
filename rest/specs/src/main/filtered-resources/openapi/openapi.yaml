@@ -76,7 +76,6 @@ paths:
       tags:
         - product
       parameters:
-        - $ref: '#/components/parameters/Accept-Version'
         - name: productID
           in: path
           required: true
