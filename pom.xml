@@ -57,6 +57,13 @@
         <tag>HEAD</tag>
     </scm>
 
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>https://artifacts.codice.org/content/repositories/ion-releases/</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>central</id>
