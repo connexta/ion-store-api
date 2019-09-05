@@ -43,10 +43,12 @@ paths:
       responses:
         '201':
           description: >
-            Product created. The Location response header contains the URI of the newly created product.
+            The Product was created.
           headers:
             'Content-Version':
               $ref: '#/components/headers/ContentVersion'
+            'Location':
+              $ref: '#/components/headers/Location'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '400':
@@ -57,6 +59,7 @@ paths:
           $ref: '#/components/responses/NotImplemented'
         'default':
           $ref: '#/components/responses/DefaultError'
+  # TODO This endpoint will be replaced
   /product/{productId}/{metadataType}:
     put:
       summary: Add metadata to a Product.
@@ -89,40 +92,10 @@ paths:
       responses:
         '200':
           description: >
-            The request was successful.
+            The metadata was added to the Product.
           headers:
             'Content-Version':
               $ref: '#/components/headers/ContentVersion'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '501':
-          $ref: '#/components/responses/NotImplemented'
-        'default':
-          $ref: '#/components/responses/DefaultError'
-  /product/{productId}:
-    get:
-      summary: Get a Product.
-      description: Clients send a Product ID to retrieve the Product as a file.
-      operationId: retrieveProduct
-      tags:
-        - store
-      parameters:
-        - $ref: '#/components/parameters/ProductId'
-      responses:
-        200:
-          description: Get Product
-          content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
-          headers:
-            'Content-Version':
-              $ref: '#/components/headers/ContentVersion'
-        '400':
-          $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -224,6 +197,15 @@ components:
         dev:
           value: '1.2.0-SNAPSHOT'
           summary: A development version
+    Location:
+      description: >
+        The URI that can be used to download the file for the Product.
+      required: true
+      schema:
+        type: string
+        format: uri
+        minLength: 1
+        maxLength: 500
   schemas:
     File:
       type: object
