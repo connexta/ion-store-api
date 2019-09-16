@@ -25,7 +25,7 @@
 
     <groupId>com.connexta.store</groupId>
     <artifactId>store-api</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -52,7 +52,7 @@
         <connection>scm:git:https://github.com/connexta/ion-store-api.git</connection>
         <developerConnection>scm:git:https://github.com/connext/ion-store-api.git
         </developerConnection>
-        <tag>HEAD</tag>
+        <tag>ion-store-api-0.2.0</tag>
     </scm>
 
     <distributionManagement>

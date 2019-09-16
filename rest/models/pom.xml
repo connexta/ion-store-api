@@ -13,7 +13,7 @@
     <parent>
         <groupId>com.connexta.store</groupId>
         <artifactId>store-api-rest</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.0</version>
     </parent>
     <name>Store API :: REST Models</name>
     <artifactId>store-api-rest-models</artifactId>
