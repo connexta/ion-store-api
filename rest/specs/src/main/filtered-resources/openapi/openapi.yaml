@@ -11,7 +11,7 @@ info:
   version: ${project.version}
   title: Store API
   description: >
-    The Store API allows clients to create and retrieve Product resources
+    The Store API allows clients to create and retrieve datasets.
   contact:
     name: Connexta
   license:
@@ -22,12 +22,12 @@ servers:
   - url: ${rest.server.url}
 
 paths:
-  /product:
+  /dataset:
     post:
-      summary: Create a Product
+      summary: Create a dataset
       description: >
-        Clients send a file attachment to create a Product resource
-      operationId: storeProduct
+        Clients send a file attachment to create a dataset.
+      operationId: createDataset
       tags:
         - store
       parameters:
@@ -39,11 +39,11 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/File'
+              $ref: '#/components/schemas/Attachment'
       responses:
         '201':
           description: >
-            The Product was created.
+            The dataset was created.
           headers:
             'Content-Version':
               $ref: '#/components/headers/ContentVersion'
@@ -58,17 +58,17 @@ paths:
         '501':
           $ref: '#/components/responses/NotImplemented'
   # TODO This endpoint will be replaced
-  /product/{productId}/{metadataType}:
+  /dataset/{datasetId}/{metadataType}:
     put:
-      summary: Add metadata to a Product.
+      summary: Add a metadata to a dataset.
       description: >
-        Clients send a file attachment to add a metadata to an existing Product.
+        Clients send a metadata attachment to add a metadata to an existing dataset.
       operationId: addMetadata
       tags:
         - store
       parameters:
         - $ref: '#/components/parameters/Accept-Version'
-        - $ref: '#/components/parameters/ProductId'
+        - $ref: '#/components/parameters/DatasetId'
         - name: metadataType
           in: path
           description: >
@@ -82,15 +82,15 @@ paths:
       requestBody:
         required: true
         description: >
-          The body of the request that includes one attached file.
+          The body of the request that includes one attached metadata.
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/File'
+              $ref: '#/components/schemas/Attachment'
       responses:
         '200':
           description: >
-            The metadata was added to the Product.
+            The metadata was added to the dataset.
           headers:
             'Content-Version':
               $ref: '#/components/headers/ContentVersion'
@@ -148,16 +148,15 @@ components:
       name: Accept-Version
       in: header
       description: >
-        The minimal API version that a client using this API will accept
-        responses from.
+        The minimal API version from which a client using this API will accept responses.
       required: true
       schema:
         $ref: '#/components/schemas/Version'
-    ProductId:
-      name: productId
+    DatasetId:
+      name: datasetId
       in: path
       description: >
-        The ID of the Product.
+        The ID of the dataset.
       required: true
       schema:
         type: string
@@ -168,8 +167,8 @@ components:
   headers:
     ContentVersion:
       description: >
-        The API version used by the server to produce the REST message. The server will accept
-        messages for any minor versions prior to this one.
+        The API version used by the server to produce the REST message. The server will accept messages for any minor
+        versions prior to this one.
       required: true
       schema:
         $ref: '#/components/schemas/Version'
@@ -185,7 +184,7 @@ components:
           summary: A development version
     Location:
       description: >
-        The URI that can be used to download the file for the Product.
+        The URI that can be used to download the file for the dataset.
       required: true
       schema:
         type: string
@@ -193,12 +192,12 @@ components:
         minLength: 1
         maxLength: 500
   schemas:
-    File:
+    Attachment:
       type: object
       properties:
         file:
           description: >
-            The file attachment. The current maximum size is the character equivalent of 10GB.
+            The attachment. The current maximum size is the character equivalent of 10GB.
           type: string
           format: binary
           minLength: 1
