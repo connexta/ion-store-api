@@ -26,7 +26,7 @@ paths:
     post:
       summary: Create a dataset
       description: >
-        Clients send a product attachment to create a dataset.
+        Clients send a file attachment to create a dataset.
       operationId: createDataset
       tags:
         - store
@@ -35,7 +35,7 @@ paths:
       requestBody:
         required: true
         description: >
-          The body of the request that includes one attached product.
+          The body of the request that includes one attached file.
         content:
           multipart/form-data:
             schema:
@@ -184,7 +184,7 @@ components:
           summary: A development version
     Location:
       description: >
-        The URI that can be used to download the product for the dataset.
+        The URI that can be used to download the file for the dataset.
       required: true
       schema:
         type: string
