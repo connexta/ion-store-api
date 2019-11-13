@@ -12,7 +12,7 @@
     <parent>
         <groupId>com.connexta.store</groupId>
         <artifactId>store-api</artifactId>
-        <version>0.3.1-SNAPSHOT</version>
+        <version>0.4.0-SNAPSHOT</version>
     </parent>
     <name>Store API :: REST</name>
     <artifactId>store-api-rest</artifactId>
@@ -23,8 +23,6 @@
         <rest.models.package>${root.package}.rest.models</rest.models.package>
     </properties>
     <modules>
-        <module>specs</module>
-        <module>docs</module>
         <module>models</module>
         <module>servers</module>
     </modules>
