@@ -13,6 +13,7 @@
  */
 package com.connexta.store.rest.spring;
 
+import com.connexta.store.rest.models.AddMetadataRequest;
 import com.connexta.store.rest.models.ErrorMessage;
 import com.connexta.store.rest.models.QuarantineRequest;
 import io.swagger.annotations.Api;
@@ -33,8 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 /** Provides mechanisms for operating on Datasets (files with associated metadata). */
 @Validated
@@ -101,7 +100,10 @@ public interface StoreApi {
           @ApiParam(value = "The ID of the Dataset.", required = true)
           @PathVariable("datasetId")
           String datasetId,
-      @ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file)
+      @ApiParam(value = "A request to add metadata to a Dataset.", required = true)
+          @Valid
+          @RequestBody
+          AddMetadataRequest addMetadataRequest)
       throws Exception {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
@@ -160,6 +162,11 @@ public interface StoreApi {
           @NotNull
           @Pattern(regexp = SEMANTIC_VERSION_REGEX)
           String acceptVersion,
+      @Pattern(regexp = "^[0-9a-zA-Z]+$")
+          @Size(min = 32, max = 32)
+          @ApiParam(value = "The ID of the Dataset.", required = true)
+          @PathVariable("datasetId")
+          String datasetId,
       @ApiParam(
               value = "A request to quarantine a Dataset and any additional metadata.",
               required = true)

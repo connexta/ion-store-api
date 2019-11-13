@@ -43,7 +43,7 @@ public class MetadataInfo {
    * @return location
    */
   @ApiModelProperty(
-      example = "https://www.example.com/mis/30f14c6c1fc85cba12bfd093aa8f90e3",
+      example = "https://store:9041/dataset/30f14c6c1fc85cba12bfd093aa8f90e3/irm",
       value = "The URL for where the metadata is located.")
   public URL getLocation() {
     return location;
@@ -76,7 +76,7 @@ public class MetadataInfo {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MetadataInformation {\n");
+    sb.append("class MetadataInfo {\n");
     sb.append("    metadataType: ").append(toIndentedString(metadataType)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("}");
