@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -34,6 +35,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 /** Provides mechanisms for operating on Datasets (files with associated metadata). */
 @Validated
@@ -43,6 +47,72 @@ public interface StoreApi {
   // See https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
   String SEMANTIC_VERSION_REGEX =
       "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$";
+
+  @ApiOperation(
+      value = "Ingest endpoint for a Dataset.",
+      nickname = "ingest",
+      notes =
+          "A system can use the Ingest endpoint to ingest a Dataset for validation, transformation, and storage.",
+      tags = {"stage, store, ingest"})
+  @ApiResponses({
+      @ApiResponse(code = 202, message = "The ingest request was accepted."),
+      @ApiResponse(
+          code = 400,
+          message =
+              "The client message could not understood by the server due to invalid format or syntax.",
+          response = ErrorMessage.class),
+      @ApiResponse(
+          code = 401,
+          message = "The client could not be authenticated.",
+          response = ErrorMessage.class),
+      @ApiResponse(
+          code = 403,
+          message = "The client does not have permission.",
+          response = ErrorMessage.class),
+      @ApiResponse(
+          code = 501,
+          message = "The requested API version is not supported and therefore not implemented.",
+          response = ErrorMessage.class)
+  })
+  @RequestMapping(
+      value = {"/ingest"},
+      produces = {"application/json"},
+      consumes = {"multipart/form-data"},
+      method = {RequestMethod.POST})
+  default ResponseEntity<Void> ingest(
+      @ApiParam(
+          value =
+              "The API version used by the client to produce the REST message. The client must accept responses marked with any minor versions after this one. This implies that all future minor versions of the message are backward compatible with all previous minor versions of the same message.",
+          required = true)
+      @RequestHeader(value = "Accept-Version", required = true)
+      @NotNull
+      @Pattern(regexp = SEMANTIC_VERSION_REGEX)
+          String acceptVersion,
+      @ApiParam(value = "The last modified time of the Dataset to be ingested. ", required = true)
+      @RequestHeader(value = "Last-Modified", required = true)
+          OffsetDateTime lastModified,
+      @ApiParam(
+          value =
+              "A file attachment that is sent in the ingest request. The current maximum is the character equivalent of 10GB.",
+          required = true)
+      @Valid
+      @RequestPart(value = "file", required = true)
+          MultipartFile file,
+      @ApiParam(
+          value =
+              "A unique correlation id for the Dataset to be ingested which will allow the client to perform actions with the Dataset and/or any other information associated with it in the future. Only one Dataset can exist with a given correlation id. This means that a request to ingest a Dataset with an existing correlation id will result in a failure with no changes to the existing Dataset or associated information. ",
+          required = true)
+      @RequestParam(value = "correlationId", required = true)
+          String correlationId,
+      @ApiParam(
+          value =
+              "A metacard.xml attachment that is sent in the ingest request to enhance validation and transformation. The current maximum is the character equivalent of 10GB.",
+          required = true)
+      @Valid
+      @RequestPart(value = "metacard", required = true)
+          MultipartFile metacard) throws Exception {
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
 
   @ApiOperation(
       value = "Add metadata to a Dataset.",
