@@ -22,10 +22,10 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -95,11 +95,9 @@ public interface StoreApi {
           @NotNull
           @Pattern(regexp = SEMANTIC_VERSION_REGEX)
           String acceptVersion,
-      @Pattern(regexp = "^[0-9a-zA-Z]+$")
-          @Size(min = 32, max = 32)
-          @ApiParam(value = "The ID of the Dataset.", required = true)
+      @ApiParam(value = "The ID of the Dataset.", required = true)
           @PathVariable("datasetId")
-          String datasetId,
+          UUID datasetId,
       @ApiParam(value = "A request to add metadata to a Dataset.", required = true)
           @Valid
           @RequestBody
@@ -162,11 +160,9 @@ public interface StoreApi {
           @NotNull
           @Pattern(regexp = SEMANTIC_VERSION_REGEX)
           String acceptVersion,
-      @Pattern(regexp = "^[0-9a-zA-Z]+$")
-          @Size(min = 32, max = 32)
-          @ApiParam(value = "The ID of the Dataset.", required = true)
+      @ApiParam(value = "The ID of the Dataset.", required = true)
           @PathVariable("datasetId")
-          String datasetId,
+          UUID datasetId,
       @ApiParam(
               value = "A request to quarantine a Dataset and any additional metadata.",
               required = true)
