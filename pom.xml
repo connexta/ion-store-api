@@ -91,7 +91,6 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <!-- CVE-2018-10237 -->
                 <version>28.2-jre</version>
             </dependency>
             <dependency>
